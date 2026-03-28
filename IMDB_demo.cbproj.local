@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.857,=C:\Users\Jan\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.257,C:\Users\Jan\Desktop\4sem\NTP\Unit1.dfm=C:\Users\Jan\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.443,C:\Users\Jan\Desktop\4sem\NTP\IMDB_demo.cbproj=C:\Users\Jan\Documents\Embarcadero\Studio\Projects\Project1.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.388,C:\Users\Jan\Desktop\4sem\NTP\DataTypes.h=C:\Users\Jan\Desktop\4sem\NTP\File1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.987,=C:\Users\Jan\Desktop\4sem\NTP\File1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.820,=C:\Users\Jan\Desktop\4sem\NTP\File1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.996,=C:\Users\Jan\Documents\Embarcadero\Studio\Projects\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.088,=C:\Users\Jan\Desktop\4sem\NTP\Registracija.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.203,=C:\Users\Jan\Desktop\4sem\NTP\Registracija.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.148,=C:\Users\Jan\Desktop\4sem\NTP\Registracija.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.634,=C:\Users\Jan\Desktop\4sem\NTP\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.086,C:\Users\Jan\Desktop\4sem\NTP\DataTypes.cpp=C:\Users\Jan\Desktop\4sem\NTP\File1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.257,C:\Users\Jan\Desktop\4sem\NTP\Unit1.cpp=C:\Users\Jan\Documents\Embarcadero\Studio\Projects\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.148,C:\Users\Jan\Desktop\4sem\NTP\IMDB_demoPCH1.h=C:\Users\Jan\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.257,C:\Users\Jan\Desktop\4sem\NTP\Unit1.h=C:\Users\Jan\Documents\Embarcadero\Studio\Projects\Unit1.h</Transaction>
+    <Transaction>2026.03.28 09:54:49.094,C:\Users\Jan\Desktop\4sem\NTP\Registracija.cpp=</Transaction>
+    <Transaction>2026.03.28 09:54:49.138,C:\Users\Jan\Desktop\4sem\NTP\Registracija.dfm=</Transaction>
+    <Transaction>2026.03.28 09:54:49.171,C:\Users\Jan\Desktop\4sem\NTP\Registracija.h=</Transaction>
+    <Transaction>2026.03.28 09:58:55.230,=C:\Users\Jan\Desktop\4sem\NTP\Registracija.cpp</Transaction>
+    <Transaction>2026.03.28 09:58:55.240,=C:\Users\Jan\Desktop\4sem\NTP\Registracija.dfm</Transaction>
+    <Transaction>2026.03.28 09:59:08.430,C:\Users\Jan\Desktop\4sem\NTP\Registracija.dfm=</Transaction>
+  </Transactions>
+</BorlandProject>
