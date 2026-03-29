@@ -6,8 +6,10 @@
 #include <DataTypes.h>
 #include <DataTypes.cpp>
 //---------------------------------------------------------------------------
-USEFORM("Registracija.cpp", FormRegistracija);
 USEFORM("Prijava.cpp", FormPrijava);
+USEFORM("Registracija.cpp", FormRegistracija);
+USEFORM("Recenzija.cpp", FormRecenzija);
+USEFORM("PregledFilmova.cpp", FormSviFilmovi);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -17,6 +19,8 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->MainFormOnTaskBar = true;
 		Application->CreateForm(__classid(TFormRegistracija), &FormRegistracija);
 		Application->CreateForm(__classid(TFormPrijava), &FormPrijava);
+		Application->CreateForm(__classid(TFormRecenzija), &FormRecenzija);
+		Application->CreateForm(__classid(TFormSviFilmovi), &FormSviFilmovi);
 		Application->Run();
 	}
 	catch (Exception &exception)

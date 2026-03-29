@@ -5,6 +5,7 @@
 
 #include "Registracija.h"
 #include "DataTypes.h"
+#include "Stilovi.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -15,6 +16,10 @@ __fastcall TFormRegistracija::TFormRegistracija(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+    PrimijeniStil(this);
+}
 
 /*
 bool sadrziBrojeve(String s)

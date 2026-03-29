@@ -1,0 +1,133 @@
+INI datoteka
+C++ Builder ima ugrađenu klasu TIniFile za to:
+styles.ini
+ini[Boje]
+Pozadina=1A1A1A
+Tamna=2C2C2C
+GrupBox=242424
+Crvena=0A32FA
+Sekundar=3A3A3A
+Tekst=FFFFFF
+Label=AAAAAA
+
+[Font]
+Naziv=Arial
+Velicina=10
+Čitanje u Styles.cpp
+cpp#include <IniFiles.hpp>
+
+cpp
+void UcitajStiloveIni(TForm *forma)
+{
+    TIniFile *ini = new TIniFile(ExtractFilePath(Application->ExeName) + "styles.ini");
+    try
+    {
+        TColor pozadina = (TColor)StrToInt("0x" + ini->ReadString("Boje", "Pozadina", "1A1A1A"));
+        TColor tamna    = (TColor)StrToInt("0x" + ini->ReadString("Boje", "Tamna",    "2C2C2C"));
+        TColor crvena   = (TColor)StrToInt("0x" + ini->ReadString("Boje", "Crvena",   "0A32FA"));
+        TColor tekst    = (TColor)StrToInt("0x" + ini->ReadString("Boje", "Tekst",    "FFFFFF"));
+        TColor label    = (TColor)StrToInt("0x" + ini->ReadString("Boje", "Label",    "AAAAAA"));
+        String font     = ini->ReadString("Font", "Naziv",   "Arial");
+        int    velicina = ini->ReadInteger("Font", "Velicina", 10);
+
+        // Primijeni na formu
+        forma->Color      = pozadina;
+        forma->Font->Name = font;
+        forma->Font->Color = tekst;
+
+        for (int i = 0; i < forma->ComponentCount; i++)
+        {
+            TComponent *comp = forma->Components[i];
+
+            if (TEdit *c = dynamic_cast<TEdit*>(comp))
+            {
+                c->Color       = tamna;
+                c->Font->Name  = font;
+                c->Font->Size  = velicina;
+                c->Font->Color = tekst;
+            }
+            else if (TButton *c = dynamic_cast<TButton*>(comp))
+            {
+                c->Font->Name         = font;
+                c->Font->Size         = velicina;
+                c->ParentBackground   = false;
+                c->ParentColor        = false;
+                c->Color       = (c->Tag == 1) ? crvena : (TColor)0x3A3A3A;
+                c->Font->Color = tekst;
+            }
+            // ... ostale komponente
+        }
+    }
+    __finally
+    {
+        delete ini;
+    }
+}
+
+Windows Registry
+C++ Builder ima klasu TRegistry:
+Pisanje u registry (jednom, pri instalaciji):
+
+cpp
+#include <Registry.hpp>
+
+void SpremiStiloveRegistry()
+{
+    TRegistry *reg = new TRegistry();
+    try
+    {
+        reg->RootKey = HKEY_CURRENT_USER;
+        reg->OpenCreateKey("Software\\MojaAplikacija\\Stilovi");
+
+        reg->WriteString("Pozadina", "1A1A1A");
+        reg->WriteString("Tamna",    "2C2C2C");
+        reg->WriteString("Crvena",   "0A32FA");
+        reg->WriteString("Tekst",    "FFFFFF");
+        reg->WriteString("Label",    "AAAAAA");
+        reg->WriteString("Font",     "Arial");
+        reg->WriteInteger("Velicina", 10);
+
+        reg->CloseKey();
+    }
+    __finally
+    {
+        delete reg;
+    }
+}
+Čitanje iz registrya:
+
+cpp
+void UcitajStiloveRegistry(TForm *forma)
+{
+    TRegistry *reg = new TRegistry();
+    try
+    {
+        reg->RootKey = HKEY_CURRENT_USER;
+
+        if (reg->OpenKey("Software\\MojaAplikacija\\Stilovi", false))
+        {
+            TColor pozadina = (TColor)StrToInt("0x" + reg->ReadString("Pozadina"));
+            TColor tamna    = (TColor)StrToInt("0x" + reg->ReadString("Tamna"));
+            TColor crvena   = (TColor)StrToInt("0x" + reg->ReadString("Crvena"));
+            TColor tekst    = (TColor)StrToInt("0x" + reg->ReadString("Tekst"));
+            String font     = reg->ReadString("Font");
+            int    velicina = reg->ReadInteger("Velicina");
+
+            forma->Color       = pozadina;
+            forma->Font->Name  = font;
+            forma->Font->Color = tekst;
+
+            // ... petlja kroz komponente kao gore
+
+            reg->CloseKey();
+        }
+    }
+    __finally
+    {
+        delete reg;
+    }
+}
+
+Što odabrati?
+INI datotekaRegistryJednostavnostJednostavnijeMalo složenijePrenosivostLako kopiratiVezano uz WindowsSigurnostKorisnik može ručno editiratiTeže mijenjatiPrimjenaManje aplikacijeProfesionalne aplikacije
+Preporuka — za desktop aplikaciju kakvu praviš koristi INI datoteku. Jednostavnija je, lako ju možeš editirati izvana, i nema potrebe za registryem osim ako aplikacija ima instalacijski program.
