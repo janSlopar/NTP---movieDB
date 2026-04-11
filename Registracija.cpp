@@ -44,24 +44,26 @@ void __fastcall TFormRegistracija::FormCreate(TObject *Sender)
 	TIniFile* ini = new TIniFile(path);
 
 	ButtonKonf->StyleName = ini->ReadString("Stilovi", "stil2", "0");
+	ButtonHRV->StyleName = ini->ReadString("Stilovi", "stil2", "0");
+    ButtonENG->StyleName = ini->ReadString("Stilovi", "stil2", "0");
 
-		ini->WriteString("HR", "label1", Label1->Caption);
-		ini->WriteString("HR", "label2", Label2->Caption);
-		ini->WriteString("HR", "label3", Label3->Caption);
-		ini->WriteString("HR", "label4", Label4->Caption);
-		ini->WriteString("HR", "label5", Label5->Caption);
-		ini->WriteString("HR", "ButtonRegistriraj", ButtonRegistriraj->Caption);
-		ini->WriteString("HR", "ButtonKonf", ButtonKonf->Caption);
-		ini->WriteString("HR", "ButtonPrijava", "Prijavi se!");
+	ini->WriteString("HR", "label1", Label1->Caption);
+	ini->WriteString("HR", "label2", Label2->Caption);
+	ini->WriteString("HR", "label3", Label3->Caption);
+	ini->WriteString("HR", "label4", Label4->Caption);
+	ini->WriteString("HR", "label5", Label5->Caption);
+	ini->WriteString("HR", "ButtonRegistriraj", ButtonRegistriraj->Caption);
+	ini->WriteString("HR", "ButtonKonf", ButtonKonf->Caption);
+	ini->WriteString("HR", "ButtonPrijava", "Prijavi se!");
 
-		ini->WriteString("ENG", "label1", "Name:");
-		ini->WriteString("ENG", "label2", "Surname:");
-		ini->WriteString("ENG", "label3", "Username:");
-		ini->WriteString("ENG", "label4", "e-mail:");
-		ini->WriteString("ENG", "label5", "password:");
-		ini->WriteString("ENG", "ButtonRegistriraj", "Register!");
-		ini->WriteString("ENG", "ButtonKonf", "Save config");
-		ini->WriteString("ENG", "ButtonPrijava", "Login!");
+	ini->WriteString("ENG", "label1", "Name:");
+	ini->WriteString("ENG", "label2", "Surname:");
+	ini->WriteString("ENG", "label3", "Username:");
+	ini->WriteString("ENG", "label4", "e-mail:");
+	ini->WriteString("ENG", "label5", "password:");
+	ini->WriteString("ENG", "ButtonRegistriraj", "Register!");
+	ini->WriteString("ENG", "ButtonKonf", "Save config");
+	ini->WriteString("ENG", "ButtonPrijava", "Login!");
 
     delete ini;
 
@@ -88,8 +90,7 @@ void __fastcall TFormRegistracija::FormCreate(TObject *Sender)
 	{
 		if (reg->OpenKey("Software\\IMiniDB", true))
 		{
-			if (!reg->ValueExists("IMiniDB"))
-				reg->WriteString("IMiniDB", FormatDateTime("dd.mm.yyyy hh:nn:ss", Now()));
+			reg->WriteString("IMiniDB", FormatDateTime("dd.mm.yyyy hh:nn:ss", Now()));
 
 			if (!reg->ValueExists("IMiniDB_br_otvaranja"))
 				reg->WriteInteger("IMiniDB_br_otvaranja", 0);
