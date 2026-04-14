@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
@@ -7,6 +7,8 @@
 #include "DataTypes.h"
 #include <registry.hpp>
 #include <System.IOUtils.hpp>
+#include <System.JSON.Readers.hpp>
+#include <System.JSON.Writers.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -17,24 +19,83 @@ __fastcall TFormRecenzija::TFormRecenzija(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
-void __fastcall TFormRecenzija::ButtonSpremiClick(TObject *Sender)
+void __fastcall TFormRecenzija::ButtonSpremiRecenzijuClick(TObject *Sender)
 {
-	if (memTekst->Lines->Text.IsEmpty() ||
-		edtFilmID->Text.IsEmpty() 		||
-		edtKorisnikID->Text.IsEmpty())
-	{
-        ShowMessage("Molimo ispunite sva obavezna polja!");
-		return;
-	}
+    if (memTekst->Lines->Text.Trim().IsEmpty()) {
+        ShowMessage("Tekst recenzije ne smije biti prazan!");
+        return;
+    }
 
-	//int idRecenzije   = iz baze +1
-	String tekst      = memTekst->Lines->Text;
-    int ocjena 		  = TrackBarOcjena->Position;
-	TDateTime datum   = dtpDatum->Date;
-    int filmID        = StrToInt(edtFilmID->Text);
-    int korisnikID    = StrToInt(edtKorisnikID->Text);
+    String putanja = TPath::Combine(ExtractFilePath(Application->ExeName), "..\\..\\recenzija.json");
 
-	ShowMessage("Recenzija uspje�no spremljena!");
+    try {
+        TJSONArray *jsonArray = new TJSONArray();
+
+        // Ako file postoji → učitaj i parsiraj
+        if (TFile::Exists(putanja)) {
+            TStringList *sl = new TStringList();
+            sl->LoadFromFile(putanja, TEncoding::UTF8);
+            String sadrzaj = sl->Text.Trim();
+            delete sl;
+
+            if (!sadrzaj.IsEmpty()) {
+                TJSONValue *parsiran = TJSONObject::ParseJSONValue(sadrzaj);
+
+                if (parsiran && parsiran->ClassNameIs("TJSONArray")) {
+                    TJSONArray *postojeciArray = static_cast<TJSONArray*>(parsiran);
+
+                    // (opcionalno) provjera duplikata: isti film + isti tekst
+                    for (int i = 0; i < postojeciArray->Count; i++) {
+                        TJSONObject *obj = static_cast<TJSONObject*>(postojeciArray->Items[i]);
+
+                        if (obj->GetValue("film")->Value() == edtFilm->Text &&
+                            obj->GetValue("tekst")->Value() == memTekst->Lines->Text.Trim()) {
+
+                            ShowMessage("Recenzija već postoji!");
+                            delete jsonArray;
+                            delete parsiran;
+                            return;
+                        }
+                    }
+
+                    delete jsonArray;
+                    jsonArray = postojeciArray;
+                } else {
+                    delete parsiran;
+                }
+            }
+        }
+
+        // Nova recenzija
+        TJSONObject *rec = new TJSONObject();
+        rec->AddPair("film", edtFilm->Text);
+        rec->AddPair("ocjena", new TJSONNumber(TrackBarOcjena->Position));
+        rec->AddPair("tekst", memTekst->Lines->Text.Trim());
+        rec->AddPair("datum", FormatDateTime("yyyy-mm-dd", dtpDatum->Date));
+
+        jsonArray->AddElement(rec);
+
+        // Spremanje u UTF-8
+        String jsonString = jsonArray->ToString();
+
+        TFileStream *fs = new TFileStream(putanja, fmCreate);
+        TBytes bytes = TEncoding::UTF8->GetBytes(jsonString);
+        fs->WriteBuffer(&bytes[0], bytes.Length);
+        delete fs;
+
+        delete jsonArray;
+
+        ShowMessage("Recenzija uspješno spremljena!");
+        ModalResult = mrOk;
+
+        // Reset forme
+        memTekst->Clear();
+        dtpDatum->Date = Now();
+        edtFilm->Clear();
+
+    } catch (Exception &e) {
+        ShowMessage(e.Message);
+}
 
 	/*
 
@@ -58,8 +119,7 @@ void __fastcall TFormRecenzija::ButtonOdustaniClick(TObject *Sender)
 {
     memTekst->Clear();
     dtpDatum->Date = Now();
-    edtFilmID->Clear();
-	edtKorisnikID->Clear();
+	edtFilm->Clear();
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormRecenzija::FormCreate(TObject *Sender)
@@ -69,9 +129,11 @@ void __fastcall TFormRecenzija::FormCreate(TObject *Sender)
 	TIniFile* ini = new TIniFile(path);
 
 	FormRecenzija->StyleName = ini->ReadString("Stilovi", "stil1", "Obsidian");
+	StyleName = ini->ReadString("Stilovi", "stil1", "Obsidian");
 	GroupBoxRecenzija->StyleName = ini->ReadString("Stilovi", "stil2", "Obsidian");
 
 	delete ini;
 }
 //---------------------------------------------------------------------------
+
 

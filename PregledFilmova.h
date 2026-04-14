@@ -37,6 +37,7 @@ __published:	// IDE-managed Components
 	TLabel *Label1;
 	TLabel *LabelOmiljeniFilmoviNaslov;
 	TLabel *LabelListaZaGledanje;
+	TButton *Button1;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ButtonOmiljeniFilmoviClick(TObject *Sender);
 	void __fastcall ButtonHRVClick(TObject *Sender);

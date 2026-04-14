@@ -23,7 +23,25 @@ TFormSviFilmovi *FormSviFilmovi;
 	 - Editiranje naslova, godine, trajanja ili opisa filma uz upozorenje
 	   (pop-up ping !!!) prilikom potvrde. -> za zadatak JSON / XML
 	 - ...
-     - Ljepše formuliraj objašnjenja u prijavnici
+	 - Ljepše formuliraj objašnjenja u prijavnici
+
+     Što trebaš implementirati (CRUD)
+	OperacijaŠto radiČitanjePrikaži sve recenzije za selektirani film u listViewuPisanjeDodaj novu recenziju (ocjena + komentar + datum)UređivanjePromijeni ocjenu ili komentar postojeće recenzijeBrisanjeUkloni recenziju za selektirani film
+
+	Tok u aplikaciji
+
+	Korisnik selektira film u listViewOFilmovi
+	Klikne npr. "Dodaj recenziju" → upiše ocjenu i komentar
+	Sprema se u recenzije.json
+	Može pregledavati, mijenjati ili brisati recenzije
+
+
+	Zašto ovo prolazi Napomenu 2
+
+	XML → struktura Film (naslov, godina, trajanje, opis)
+	JSON → struktura Recenzija (film_naslov, ocjena, komentar, datum)
+
+	To su potpuno različiti entiteti, što je upravo ono što ocjenjivač traži. Uz potpuni CRUD na oba, realno gledaš 7–8 bodova.
 
 */
 //---------------------------------------------------------------------------
@@ -217,7 +235,7 @@ void __fastcall TFormSviFilmovi::ButtonUkloniClick(TObject *Sender)
 void __fastcall TFormSviFilmovi::ButtonDodajWatchlistuClick(TObject *Sender)
 {
     if (listViewOFilmovi->Selected == NULL) {
-        ShowMessage("Odaberi film za dodavanje na listu!" + sLineBreak + "Select a movie to add to the watchlist!");
+        ShowMessage("Odaberi film za dodavanje na listu!\nSelect a movie to add to the watchlist!");
         return;
     }
 
@@ -250,7 +268,7 @@ void __fastcall TFormSviFilmovi::ButtonDodajWatchlistuClick(TObject *Sender)
                     for (int i = 0; i < postojeciArray->Count; i++) {
                         TJSONObject *obj = static_cast<TJSONObject*>(postojeciArray->Items[i]);
                         if (obj->GetValue("naslov")->Value() == naslov) {
-                            ShowMessage("Film je već na listi!" + sLineBreak + "Movie is already on the watchlist!");
+                            ShowMessage("Film je već na listi!\nMovie is already on the watchlist!");
                             delete jsonArray;
                             delete parsiran;
                             return;
@@ -282,7 +300,7 @@ void __fastcall TFormSviFilmovi::ButtonDodajWatchlistuClick(TObject *Sender)
 
         delete jsonArray;
 
-      	ShowMessage("Uspješno dodano!" + sLineBreak + "Successfully added!");
+      	ShowMessage("Uspješno dodano!\nSuccessfully added!");
 
     } catch (Exception &e) {
         ShowMessage(e.Message);
@@ -298,7 +316,7 @@ void __fastcall TFormSviFilmovi::ButtonPregledajListuClick(TObject *Sender)
 	String jsonPath = TPath::Combine(ExtractFilePath(Application->ExeName), "..\\..\\listZaGledanje.json");
 
     if (!TFile::Exists(jsonPath)) {
-		ShowMessage("Lista je prazna!" + sLineBreak + "List is empty!");
+		ShowMessage("Lista je prazna!\nList is empty!");
         return;
 	}
 
@@ -309,13 +327,13 @@ void __fastcall TFormSviFilmovi::ButtonPregledajListuClick(TObject *Sender)
         delete sl;
 
         if (sadrzaj.IsEmpty()) {
-			ShowMessage("Lista je prazna!" + sLineBreak + "List is empty!");
+			ShowMessage("Lista je prazna!\nList is empty!");
             return;
         }
 
 		TJSONValue *parsiran = TJSONObject::ParseJSONValue(sadrzaj);
 		if (!parsiran || !parsiran->ClassNameIs("TJSONArray")) {
-			ShowMessage("Greška pri čitanju watchliste!" + sLineBreak + "Error reading watchlist!");
+			ShowMessage("Greška pri čitanju watchliste!\nError reading watchlist!");
 			delete parsiran;
             return;
         }

@@ -13,8 +13,8 @@ object FormRecenzija: TFormRecenzija
   OnCreate = FormCreate
   TextHeight = 15
   object GroupBoxRecenzija: TGroupBox
-    Left = 128
-    Top = 96
+    Left = 0
+    Top = 8
     Width = 1041
     Height = 689
     TabOrder = 0
@@ -28,28 +28,98 @@ object FormRecenzija: TFormRecenzija
     object Label2: TLabel
       Left = 435
       Top = 307
-      Width = 37
+      Width = 26
       Height = 15
-      Caption = 'FilmID:'
+      Caption = 'Film:'
     end
-    object Label3: TLabel
-      Left = 416
-      Top = 347
-      Width = 56
+    object Label4: TLabel
+      Left = 328
+      Top = 168
+      Width = 40
       Height = 15
-      Caption = 'KorisnikID:'
+      Caption = 'Ocjena:'
     end
-    object ButtonSpremi: TButton
-      Left = 272
+    object LabelOcjena: TLabel
+      Left = 392
+      Top = 200
+      Width = 6
+      Height = 15
+      Caption = '1'
+    end
+    object LabelOcjena2: TLabel
+      Left = 424
+      Top = 200
+      Width = 6
+      Height = 15
+      Caption = '2'
+    end
+    object LabelOcjena3: TLabel
+      Left = 455
+      Top = 200
+      Width = 6
+      Height = 15
+      Caption = '3'
+    end
+    object LabelOcjena4: TLabel
+      Left = 488
+      Top = 200
+      Width = 6
+      Height = 15
+      Caption = '4'
+    end
+    object LabelOcjena5: TLabel
+      Left = 520
+      Top = 200
+      Width = 6
+      Height = 15
+      Caption = '5'
+    end
+    object LabelOcjena6: TLabel
+      Left = 552
+      Top = 200
+      Width = 6
+      Height = 15
+      Caption = '6'
+    end
+    object LabelOcjena7: TLabel
+      Left = 584
+      Top = 200
+      Width = 8
+      Height = 15
+      Caption = '7'
+    end
+    object LabelOcjena8: TLabel
+      Left = 616
+      Top = 200
+      Width = 6
+      Height = 15
+      Caption = '8'
+    end
+    object LabelOcjena9: TLabel
+      Left = 648
+      Top = 200
+      Width = 8
+      Height = 15
+      Caption = '9'
+    end
+    object LabelOcjena10: TLabel
+      Left = 672
+      Top = 200
+      Width = 22
+      Height = 15
+      Caption = '10'
+    end
+    object ButtonSpremiRecenziju: TButton
+      Left = 288
       Top = 528
       Width = 225
       Height = 94
       Caption = 'Spremi'
       TabOrder = 0
-      OnClick = ButtonSpremiClick
+      OnClick = ButtonSpremiRecenzijuClick
     end
     object ButtonOdustani: TButton
-      Left = 528
+      Left = 544
       Top = 528
       Width = 225
       Height = 94
@@ -75,19 +145,12 @@ object FormRecenzija: TFormRecenzija
       Time = 0.531559131944959500
       TabOrder = 3
     end
-    object edtFilmID: TEdit
+    object edtFilm: TEdit
       Left = 495
       Top = 304
       Width = 186
       Height = 23
       TabOrder = 4
-    end
-    object edtKorisnikID: TEdit
-      Left = 495
-      Top = 344
-      Width = 186
-      Height = 23
-      TabOrder = 5
     end
     object TrackBarOcjena: TTrackBar
       Left = 384
@@ -96,7 +159,7 @@ object FormRecenzija: TFormRecenzija
       Height = 45
       Min = 1
       Position = 1
-      TabOrder = 6
+      TabOrder = 5
     end
   end
 end

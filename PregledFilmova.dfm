@@ -180,6 +180,14 @@ object FormSviFilmovi: TFormSviFilmovi
     TabOrder = 11
     OnClick = ButtonPregledajListuClick
   end
+  object Button1: TButton
+    Left = 896
+    Top = 424
+    Width = 129
+    Height = 33
+    Caption = 'Recenzije'
+    TabOrder = 12
+  end
   object XMLDocumentOmiljeniFilmovi: TXMLDocument
     FileName = 'C:\Users\Jan\Desktop\4sem\NTP\omiljeniFilmovi.xml'
     Left = 304

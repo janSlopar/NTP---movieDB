@@ -14,17 +14,26 @@ class TFormRecenzija : public TForm
 {
 __published:	// IDE-managed Components
 	TGroupBox *GroupBoxRecenzija;
-	TButton *ButtonSpremi;
+	TButton *ButtonSpremiRecenziju;
 	TButton *ButtonOdustani;
 	TMemo *memTekst;
 	TDateTimePicker *dtpDatum;
 	TLabel *Label1;
-	TEdit *edtFilmID;
-	TEdit *edtKorisnikID;
+	TEdit *edtFilm;
 	TLabel *Label2;
-	TLabel *Label3;
 	TTrackBar *TrackBarOcjena;
-	void __fastcall ButtonSpremiClick(TObject *Sender);
+	TLabel *Label4;
+	TLabel *LabelOcjena;
+	TLabel *LabelOcjena2;
+	TLabel *LabelOcjena3;
+	TLabel *LabelOcjena4;
+	TLabel *LabelOcjena5;
+	TLabel *LabelOcjena6;
+	TLabel *LabelOcjena7;
+	TLabel *LabelOcjena8;
+	TLabel *LabelOcjena9;
+	TLabel *LabelOcjena10;
+	void __fastcall ButtonSpremiRecenzijuClick(TObject *Sender);
 	void __fastcall ButtonOdustaniClick(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 private:	// User declarations
