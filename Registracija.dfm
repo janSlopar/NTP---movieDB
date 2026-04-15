@@ -135,12 +135,51 @@ object FormRegistracija: TFormRegistracija
     TabOrder = 3
     OnClick = ButtonENGClick
   end
+  object DBGrid1: TDBGrid
+    Left = 1040
+    Top = 240
+    Width = 414
+    Height = 273
+    DataSource = DataSource1
+    TabOrder = 4
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Segoe UI'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        Visible = True
+      end
+      item
+        Expanded = False
+        Visible = True
+      end
+      item
+        Expanded = False
+        Visible = True
+      end
+      item
+        Expanded = False
+        Visible = True
+      end
+      item
+        Expanded = False
+        Visible = True
+      end
+      item
+        Expanded = False
+        Visible = True
+      end>
+  end
   object FDConnectionIMiniDB: TFDConnection
     Params.Strings = (
       'Database=iminidb'
       'User_Name=root'
       'Password=admin'
       'DriverID=MySQL')
+    Connected = True
     Left = 824
     Top = 16
   end
@@ -148,5 +187,19 @@ object FormRegistracija: TFormRegistracija
     VendorLib = 'C:\Users\Jan\Desktop\4sem\NTP\libmysql.dll'
     Left = 912
     Top = 48
+  end
+  object DataSource1: TDataSource
+    DataSet = FDTable1
+    Left = 1312
+    Top = 368
+  end
+  object FDTable1: TFDTable
+    Active = True
+    IndexFieldNames = 'id'
+    Connection = FDConnectionIMiniDB
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'iminidb.korisnik'
+    Left = 1184
+    Top = 384
   end
 end

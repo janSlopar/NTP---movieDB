@@ -12,6 +12,11 @@ CREATE TABLE korisnik (
     lozinka_hash VARCHAR(255) NOT NULL
 );
 
+SELECT * FROM korisnik
+
+INSERT INTO korisnik(ime,prezime,korisnicko_ime,email,lozinka_hash)
+VALUES ("jan", "slopar", "slopy_", "js@gmail.com", "lozinkahash")
+
 -- =========================
 -- ADMIN (nasljeđuje korisnika)
 -- =========================
