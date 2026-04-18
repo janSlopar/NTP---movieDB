@@ -90,6 +90,9 @@ __published:	// IDE-managed Components
 	TToolButton *ToolButtonSQLSort;
 	TToolButton *ToolButtonSQLFilter;
 	TDBImage *DBImage1;
+	TLabel *LabelPoster;
+	TFDQuery *FDQueryBrojFilmova;
+	TLabel *LabelUkupnoFilmova;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ButtonOmiljeniFilmoviClick(TObject *Sender);
 	void __fastcall ButtonHRVClick(TObject *Sender);
@@ -108,8 +111,11 @@ __published:	// IDE-managed Components
 	void __fastcall PrikaziPoster();
 	void __fastcall SpremiPosterUBazu();
 	void __fastcall DBGridFilmoviBazaCellClick(TColumn *Column);
-bool __fastcall PosterPostojiUBazi(const String &imdbID);
-void __fastcall OsvjeziTablicutomZapisu();
+	bool __fastcall PosterPostojiUBazi(const String &imdbID);
+	void __fastcall OsvjeziTablicutomZapisu();
+	void __fastcall StilizirajLabele(TLabel *lbl);
+    void __fastcall OsvjeziBrojFilmova();
+
     private:	// User declarations
 
 public:		// User declarations

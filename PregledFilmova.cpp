@@ -3,56 +3,28 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "PregledFilmova.h"
+// VCL / system / ostalo
+#include <memory>
 #include <registry.hpp>
 #include <System.IOUtils.hpp>
-#include "DataTypes.h"
-#include <registry.hpp>
-#include <System.IOUtils.hpp>
-#include "Jezik_INI.h"
-#include "omiljeniFilmovi.h"
 #include <System.JSON.hpp>
-#include <REST.Types.hpp>
-#include <System.IOUtils.hpp>
-
 #include <System.Net.HttpClient.hpp>
 #include <System.Net.HttpClientComponent.hpp>
+#include <REST.Types.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
-#include <memory>
-#include <jpeg.hpp>
-#include <pngimage.hpp>
+
+// Projektni headeri
+#include "PregledFilmova.h"
+#include "DataTypes.h"
+#include "Jezik_INI.h"
+#include "omiljeniFilmovi.h"
+#include "Funk.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TFormSviFilmovi *FormSviFilmovi;
-//---------------------------------------------------------------------------
-/*
-	 TO-DO
-	 - Editiranje naslova, godine, trajanja ili opisa filma uz upozorenje
-	   (pop-up ping !!!) prilikom potvrde. -> za zadatak JSON / XML
-	 - ...
-	 - Ljepše formuliraj objašnjenja u prijavnici
 
-     Što trebaš implementirati (CRUD)
-	OperacijaŠto radiČitanjePrikaži sve recenzije za selektirani film u listViewuPisanjeDodaj novu recenziju (ocjena + komentar + datum)UređivanjePromijeni ocjenu ili komentar postojeće recenzijeBrisanjeUkloni recenziju za selektirani film
-
-	Tok u aplikaciji
-
-	Korisnik selektira film u listViewOFilmovi
-	Klikne npr. "Dodaj recenziju" → upiše ocjenu i komentar
-	Sprema se u recenzije.json
-	Može pregledavati, mijenjati ili brisati recenzije
-
-
-	Zašto ovo prolazi Napomenu 2
-
-	XML → struktura Film (naslov, godina, trajanje, opis)
-	JSON → struktura Recenzija (film_naslov, ocjena, komentar, datum)
-
-	To su potpuno različiti entiteti, što je upravo ono što ocjenjivač traži. Uz potpuni CRUD na oba, realno gledaš 7–8 bodova.
-
-*/
 //---------------------------------------------------------------------------
 __fastcall TFormSviFilmovi::TFormSviFilmovi(TComponent* Owner)
 	: TForm(Owner)
@@ -93,6 +65,24 @@ void __fastcall TFormSviFilmovi::SirinaDBGrida()
 		DBGridFilmoviBaza->Columns->Items[i]->Width = sirine[i];
 
 }
+
+void __fastcall TFormSviFilmovi::StilizirajLabele(TLabel *lbl)
+{
+    lbl->Font->Size    = 16;
+    lbl->Font->Style   = TFontStyles() << fsBold;
+    lbl->Font->Color   = (TColor)0x00FFD700;
+    lbl->Alignment     = taCenter;
+    lbl->Transparent   = true;
+}
+
+void __fastcall TFormSviFilmovi::OsvjeziBrojFilmova()
+{
+    FDQueryBrojFilmova->Open();
+    LabelUkupnoFilmova->Caption = "Ukupno: " +
+        FDQueryBrojFilmova->Fields->Fields[0]->AsString;
+    FDQueryBrojFilmova->Close();
+}
+
 //---------------------------------------------------------------------------
 void __fastcall TFormSviFilmovi::FormCreate(TObject *Sender)
 {
@@ -141,19 +131,16 @@ void __fastcall TFormSviFilmovi::FormCreate(TObject *Sender)
 	listViewOFilmovi->Columns->Items[2]->Width = w * 1.5 / 16;  // trajanje
 	listViewOFilmovi->Columns->Items[3]->Width = w * 11 / 16;  // opis
 
-	LabelOmiljeniFilmoviNaslov->Font->Size    = 16;
-	LabelOmiljeniFilmoviNaslov->Font->Style   = TFontStyles() << fsBold;
-	LabelOmiljeniFilmoviNaslov->Font->Color   = (TColor)0x00FFD700;
-	LabelOmiljeniFilmoviNaslov->Alignment     = taCenter;
-	LabelOmiljeniFilmoviNaslov->Transparent   = true;
+	StilizirajLabele(LabelOmiljeniFilmoviNaslov);
+	StilizirajLabele(LabelListaZaGledanje);
+	StilizirajLabele(LabelPoster);
+	StilizirajLabele(LabelUkupnoFilmova);
+    StilizirajLabele(Label2);
 
-    LabelListaZaGledanje->Font->Size  = 16;
-	LabelListaZaGledanje->Font->Style = TFontStyles() << fsBold;
-	LabelListaZaGledanje->Font->Color = (TColor)0x00FFD700;
-	LabelListaZaGledanje->Alignment   = taCenter;
-	LabelListaZaGledanje->Transparent = true;
+	SirinaDBGrida();
 
-    SirinaDBGrida();
+	//sql izracun
+   OsvjeziBrojFilmova();
 }
 //---------------------------------------------------------------------------
 
@@ -162,12 +149,6 @@ void __fastcall TFormSviFilmovi::FormCreate(TObject *Sender)
 void __fastcall TFormSviFilmovi::ButtonOmiljeniFilmoviClick(TObject *Sender)
 {
 
-	/*// Ili iz TBytes (ako imaš poster kao byte array)
-	TMemoryStream *stream = new TMemoryStream();
-	stream->Write(film.poster.get(), film.poster.Length);
-	stream->Position = 0;
-	Image1->Picture->LoadFromStream(stream);
-	delete stream;  */
 	LabelOmiljeniFilmoviNaslov->Visible = true;
 	LabelListaZaGledanje->Visible = false;
 	OsvjeziListu();
@@ -421,7 +402,7 @@ void __fastcall TFormSviFilmovi::listViewOFilmoviSelectItem(TObject *Sender, TLi
 
 void __fastcall TFormSviFilmovi::ButtonRESTBazaClick(TObject *Sender)
 {
-    DataSourceFilm->DataSet = FDQuerySelect;
+    //taSourceFilm->DataSet = FDQuerySelect;
     AnsiString pojam = Trim(editFilmRESTBaza->Text);
     if (pojam.IsEmpty()) { ShowMessage("Upisi pojam."); return; }
 
@@ -579,6 +560,7 @@ void __fastcall TFormSviFilmovi::ButtonRESTBazaClick(TObject *Sender)
 	FDTableFilm->Open();
 	SirinaDBGrida();
 	ShowMessage("Upisano: " + IntToStr(upisano));
+	OsvjeziBrojFilmova();
 }
 
 
@@ -625,10 +607,19 @@ void __fastcall TFormSviFilmovi::OsvjeziTablicutomZapisu()
 void __fastcall TFormSviFilmovi::SpremiPosterUBazu()
 {
     String url = FDTableFilm->FieldByName("posterUrl")->AsString.Trim();
-    if (url.IsEmpty() || url == "N/A") {
-        ShowMessage("URL postera je prazan.");
-        return;
-    }
+	if (url.IsEmpty() || url == "N/A") {
+		String path = TPath::Combine(
+		ExtractFilePath(Application->ExeName),
+		"..\\..\\no-poster-available.jpg");
+
+		if (!FileExists(path)) {
+			ShowMessage("Nema slike na: " + path);
+			return;
+		}
+
+		DBImage1->Picture->LoadFromFile(path);
+		return;
+	}
 
     String imdbID = FDTableFilm->FieldByName("imdbID")->AsString;
 
@@ -643,7 +634,7 @@ void __fastcall TFormSviFilmovi::SpremiPosterUBazu()
         _di_IHTTPResponse response = http->Get(url, ms.get());
 
         if (response->StatusCode != 200 || ms->Size < 1000) {
-            ShowMessage("Greška pri dohvatu slike.");
+		   // ShowMessage("Greška pri dohvatu slike.");
             return;
         }
 
@@ -664,7 +655,7 @@ void __fastcall TFormSviFilmovi::SpremiPosterUBazu()
         }
     }
     catch (Exception &e) {
-        ShowMessage("Greška: " + e.Message);
+		ShowMessage("Greška: " + e.Message);
     }
 }
 
@@ -672,30 +663,24 @@ void __fastcall TFormSviFilmovi::SpremiPosterUBazu()
 void __fastcall TFormSviFilmovi::PrikaziPoster()
 {
     DBImage1->Picture->Assign(NULL);
-
-    if (FDTableFilm->IsEmpty())
-        return;
-
+	if (FDTableFilm->IsEmpty()){
+		return;
+	}
     String imdbID = FDTableFilm->FieldByName("imdbID")->AsString;
-
     TFDQuery *q = new TFDQuery(NULL);
     try {
         q->Connection = FDTableFilm->Connection;
         q->SQL->Text = "SELECT poster FROM Filmovi WHERE imdbID = :id";
         q->ParamByName("id")->AsString = imdbID;
         q->Open();
-
         if (q->IsEmpty())
             return;
-
         TBlobField *blob = (TBlobField*)q->FieldByName("poster");
         if (blob->IsNull || blob->DataSize == 0)
             return;
-
         std::unique_ptr<TMemoryStream> ms(new TMemoryStream());
         blob->SaveToStream(ms.get());
         ms->Position = 0;
-
         std::unique_ptr<TWICImage> img(new TWICImage());
         img->LoadFromStream(ms.get());
         DBImage1->Picture->Assign(img.get());

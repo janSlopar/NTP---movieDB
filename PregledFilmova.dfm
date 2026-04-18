@@ -2,7 +2,7 @@ object FormSviFilmovi: TFormSviFilmovi
   Left = 0
   Top = 0
   ClientHeight = 1000
-  ClientWidth = 1257
+  ClientWidth = 1254
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -61,10 +61,24 @@ object FormSviFilmovi: TFormSviFilmovi
   end
   object Label2: TLabel
     Left = 8
-    Top = 524
-    Width = 23
+    Top = 521
+    Width = 26
     Height = 15
-    Caption = 'Film'
+    Caption = 'Film:'
+  end
+  object LabelPoster: TLabel
+    Left = 880
+    Top = 516
+    Width = 36
+    Height = 15
+    Caption = 'Poster:'
+  end
+  object LabelUkupnoFilmova: TLabel
+    Left = 663
+    Top = 521
+    Width = 45
+    Height = 15
+    Caption = 'Ukupno:'
   end
   object ButtonDodajWatchlistu: TButton
     Left = 1104
@@ -191,17 +205,17 @@ object FormSviFilmovi: TFormSviFilmovi
     TabOrder = 12
   end
   object ButtonRESTBaza: TButton
-    Left = 197
+    Left = 248
     Top = 512
-    Width = 129
+    Width = 78
     Height = 41
     Caption = 'Dodaj u bazu'
     TabOrder = 13
     OnClick = ButtonRESTBazaClick
   end
   object editFilmRESTBaza: TEdit
-    Left = 37
-    Top = 521
+    Left = 88
+    Top = 530
     Width = 154
     Height = 23
     TabOrder = 14
@@ -224,7 +238,7 @@ object FormSviFilmovi: TFormSviFilmovi
   object ToolBar1: TToolBar
     Left = 332
     Top = 512
-    Width = 917
+    Width = 325
     Height = 41
     Align = alCustom
     ButtonHeight = 23
@@ -341,7 +355,6 @@ object FormSviFilmovi: TFormSviFilmovi
     Top = 784
   end
   object FDQueryFilterOcjena: TFDQuery
-    Active = True
     Connection = FDConnectionZaFilmove
     SQL.Strings = (
       
@@ -352,5 +365,14 @@ object FormSviFilmovi: TFormSviFilmovi
       'order by imdbRating desc')
     Left = 288
     Top = 856
+  end
+  object FDQueryBrojFilmova: TFDQuery
+    Active = True
+    Connection = FDConnectionZaFilmove
+    SQL.Strings = (
+      'SELECT COUNT(naslov)'
+      'FROM filmovi')
+    Left = 288
+    Top = 912
   end
 end

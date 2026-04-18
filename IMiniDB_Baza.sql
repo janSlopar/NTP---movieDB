@@ -32,6 +32,11 @@ FROM Filmovi
 WHERE imdbRating >= 8
 ORDER BY imdbRating DESC
 
+
+-- FDQueryIzracun
+SELECT COUNT(naslov)
+FROM filmovi
+
 INSERT INTO korisnik(ime,prezime,korisnicko_ime,email,lozinka_hash)
 VALUES ("jan", "slopar", "slopy_", "js@gmail.com", "lozinkahash")
 

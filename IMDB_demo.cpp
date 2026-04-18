@@ -8,11 +8,10 @@
 #include "Prijava.h"
 #include "Recenzija.h"
 #include "PregledFilmova.h"
+#include "Dobrodosli.h"
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
 
-USEFORM("Dobrodosli.cpp", FormDobrodosli);
-//---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
