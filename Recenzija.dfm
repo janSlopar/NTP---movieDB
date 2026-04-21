@@ -192,43 +192,6 @@ object FormRecenzija: TFormRecenzija
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
   end
-  object frxReportRecenzija: TfrxReport
-    Version = '2024.1.2'
-    DotMatrixReport = False
-    IniFile = '\Software\Fast Reports'
-    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection, pbWatermarks]
-    PreviewOptions.Zoom = 1.000000000000000000
-    PrintOptions.Printer = 'Default'
-    PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 46130.617870405090000000
-    ReportOptions.LastChange = 46130.617870405090000000
-    ScriptLanguage = 'PascalScript'
-    ScriptText.Strings = (
-      'begin'
-      ''
-      'end.')
-    Left = 1216
-    Top = 112
-    Datasets = <>
-    Variables = <>
-    Style = <>
-    Watermarks = <>
-    object Data: TfrxDataPage
-      Height = 1000.000000000000000000
-      Width = 1000.000000000000000000
-    end
-    object Page1: TfrxReportPage
-      PaperWidth = 215.900000000000000000
-      PaperHeight = 279.400000000000000000
-      PaperSize = 1
-      LeftMargin = 10.000000000000000000
-      RightMargin = 10.000000000000000000
-      TopMargin = 10.000000000000000000
-      BottomMargin = 10.000000000000000000
-      Frame.Typ = []
-      MirrorMode = []
-    end
-  end
   object FDConnectionIMiniDB: TFDConnection
     Params.Strings = (
       'Database=iminidb'
@@ -259,7 +222,7 @@ object FormRecenzija: TFormRecenzija
     Left = 1168
     Top = 344
     object FDTableRecenzijeRecenzirao: TStringField
-      DisplayWidth = 20
+      DisplayWidth = 12
       FieldKind = fkLookup
       FieldName = 'Recenzirao'
       LookupDataSet = FDTableKorisnik
@@ -327,7 +290,17 @@ object FormRecenzija: TFormRecenzija
     Left = 1272
     Top = 344
   end
-  object frxReportRecenzije: TfrxReport
+  object DataSourceRecenzije: TDataSource
+    DataSet = FDTableRecenzije
+    Left = 1176
+    Top = 416
+  end
+  object DataSourceKorisnik: TDataSource
+    DataSet = FDTableKorisnik
+    Left = 1288
+    Top = 424
+  end
+  object frxReport1: TfrxReport
     Version = '2024.1.2'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
@@ -336,14 +309,14 @@ object FormRecenzija: TFormRecenzija
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 46131.500789675900000000
-    ReportOptions.LastChange = 46131.514413611110000000
+    ReportOptions.LastChange = 46133.747216122680000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
       ''
       'end.')
-    Left = 1224
-    Top = 672
+    Left = 1144
+    Top = 704
     Datasets = <
       item
         DataSet = frxDBDatasetRecenzije
@@ -433,6 +406,15 @@ object FormRecenzija: TFormRecenzija
           Frame.Typ = []
           Memo.UTF8W = (
             '[frxDBDatasetKorisnik."korisnicko_ime"]')
+        end
+        object Line1: TfrxLineView
+          AllowVectorExport = True
+          Left = 3.779530050000000000
+          Top = 49.133888120000000000
+          Width = 718.110728740000000000
+          Color = clBlack
+          Frame.Typ = []
+          Diagonal = True
         end
       end
       object DetailData1: TfrxDetailData
@@ -560,8 +542,25 @@ object FormRecenzija: TFormRecenzija
           Memo.UTF8W = (
             '[frxDBDatasetRecenzije."tekst"]')
         end
+        object Line2: TfrxLineView
+          AllowVectorExport = True
+          Left = 3.779530050000000000
+          Top = 154.960744840000000000
+          Width = 714.331187730000000000
+          Color = clBlack
+          Frame.Typ = []
+          Diagonal = True
+        end
       end
     end
+  end
+  object PReport1: TPReport
+    FileName = 'default.pdf'
+    CreationDate = 46133.710194768520000000
+    UseOutlines = False
+    ViewerPreference = []
+    Left = 1160
+    Top = 800
   end
   object frxDBDatasetRecenzije: TfrxDBDataset
     UserName = 'frxDBDatasetRecenzije'
@@ -569,8 +568,8 @@ object FormRecenzija: TFormRecenzija
     DataSet = FDTableRecenzije
     BCDToCurrency = False
     DataSetOptions = []
-    Left = 1136
-    Top = 752
+    Left = 1072
+    Top = 776
   end
   object frxDBDatasetKorisnik: TfrxDBDataset
     UserName = 'frxDBDatasetKorisnik'
@@ -578,53 +577,7 @@ object FormRecenzija: TFormRecenzija
     DataSet = FDTableKorisnik
     BCDToCurrency = False
     DataSetOptions = []
-    Left = 1264
+    Left = 1232
     Top = 744
-  end
-  object PReportRecenzije: TPReport
-    FileName = 'recenzije.pdf'
-    CreationDate = 46131.518686076390000000
-    UseOutlines = False
-    ViewerPreference = []
-    Left = 1288
-    Top = 824
-  end
-  object frxPDFExport1: TfrxPDFExport
-    UseFileCache = True
-    ShowProgress = True
-    OverwritePrompt = False
-    DataOnly = False
-    InteractiveFormsFontSubset = 'A-Z,a-z,0-9,#43-#47 '
-    OpenAfterExport = False
-    PrintOptimized = False
-    Outline = False
-    Background = False
-    Quality = 95
-    Author = 'FastReport'
-    Subject = 'FastReport PDF export'
-    Creator = 'FastReport'
-    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
-    HideToolbar = False
-    HideMenubar = False
-    HideWindowUI = False
-    FitWindow = False
-    CenterWindow = False
-    PrintScaling = False
-    PdfA = False
-    PDFStandard = psNone
-    PDFVersion = pv17
-    PDFColorSpace = csDeviceRGB
-    Left = 1160
-    Top = 832
-  end
-  object DataSourceRecenzije: TDataSource
-    DataSet = FDTableRecenzije
-    Left = 1176
-    Top = 416
-  end
-  object DataSourceKorisnik: TDataSource
-    DataSet = FDTableKorisnik
-    Left = 1288
-    Top = 424
   end
 end

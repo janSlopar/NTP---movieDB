@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
@@ -24,16 +24,36 @@ void __fastcall TFormPrijava::ButtonPrijavaClick(TObject *Sender)
  	EditLozinkaPrijava->PasswordChar = '*';
 	Korisnik K_prijava;
 
-	// if K_prijava.getKorIme() == baza.korime
-	AnsiString KorisnickoIme = EditKorImePrijava->Text;
+	AnsiString korisnickoIme = EditKorImePrijava->Text;
 	AnsiString lozinka = EditLozinkaPrijava->Text;
 
-	if(//podaci isti u bazi
-		!KorisnickoIme.IsEmpty() && !lozinka.IsEmpty()){
-        	ShowMessage("Uspije�na prijava!");
-			ShowMessage("Pozdrav, " + KorisnickoIme + "!");
+	if (korisnickoIme.IsEmpty() || lozinka.IsEmpty()) {
+        ShowMessage("Unesite korisničko ime i lozinku.");
+        return;
+    }
 
-		}
+    try {
+		FDQueryPrijava->Close();
+		FDQueryPrijava->SQL->Clear();
+		FDQueryPrijava->SQL->Add("SELECT COUNT(*) AS Broj FROM korisnik "
+                          "WHERE korisnicko_ime = :korIme AND lozinka_hash = :loz");
+		FDQueryPrijava->ParamByName("korIme")->AsString = korisnickoIme;
+		FDQueryPrijava->ParamByName("loz")->AsString    = lozinka;
+		FDQueryPrijava->Open();
+
+		if (FDQueryPrijava->FieldByName("Broj")->AsInteger == 1) {
+            ShowMessage("Uspješna prijava!\nPozdrav, " + korisnickoIme + "!");
+
+            // ovdje otvori glavnu formu, sakrij prijavu itd.
+        } else {
+            ShowMessage("Neispravno korisničko ime ili lozinka.");
+        }
+
+		FDQueryPrijava->Close();
+    }
+    catch (Exception &e) {
+        ShowMessage("Greška pri spajanju na bazu: " + e.Message);
+    }
 
 }
 //---------------------------------------------------------------------------

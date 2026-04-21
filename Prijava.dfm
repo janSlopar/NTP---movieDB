@@ -75,4 +75,36 @@ object FormPrijava: TFormPrijava
     TabOrder = 2
     OnClick = ButtonENGClick
   end
+  object FDConnectionIMiniDB: TFDConnection
+    Params.Strings = (
+      'Database=iminidb'
+      'User_Name=root'
+      'Password=admin'
+      'DriverID=MySQL')
+    Connected = True
+    LoginPrompt = False
+    Left = 536
+    Top = 16
+  end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    VendorLib = 'C:\Users\Jan\Desktop\4sem\NTP\libmysql.dll'
+    Left = 560
+    Top = 72
+  end
+  object FDTableKorisnik: TFDTable
+    Connection = FDConnectionIMiniDB
+    TableName = 'iminidb.korisnik'
+    Left = 792
+    Top = 80
+  end
+  object DataSourceKorisnikPrijava: TDataSource
+    DataSet = FDTableKorisnik
+    Left = 800
+    Top = 160
+  end
+  object FDQueryPrijava: TFDQuery
+    Connection = FDConnectionIMiniDB
+    Left = 808
+    Top = 240
+  end
 end

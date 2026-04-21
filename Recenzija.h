@@ -32,12 +32,15 @@
 #include <FireDAC.DatS.hpp>
 #include <FireDAC.Stan.Param.hpp>
 #include "frxDBSet.hpp"
-#include "PdfDoc.hpp"
-#include "PReport.hpp"
+//#include "PdfDoc.hpp"
+//#include "PReport.hpp"
 #include "frxExportBaseDialog.hpp"
 #include "frxExportPDF.hpp"
 #include <Vcl.DBGrids.hpp>
 #include <Vcl.Grids.hpp>
+#include "PdfDoc.hpp"
+#include "PReport.hpp"
+
 //---------------------------------------------------------------------------
 class TFormRecenzija : public TForm
 {
@@ -64,17 +67,11 @@ __published:	// IDE-managed Components
 	TLabel *LabelOcjena10;
 	TComboBox *cmbFilm;
 	TButton *ButtonPDF;
-	TfrxReport *frxReportRecenzija;
 	TFDConnection *FDConnectionIMiniDB;
 	TFDQuery *FDQueryUnosRecenzije;
 	TFDPhysMySQLDriverLink *FDPhysMySQLDriverLink1;
 	TFDTable *FDTableRecenzije;
 	TFDTable *FDTableKorisnik;
-	TfrxReport *frxReportRecenzije;
-	TfrxDBDataset *frxDBDatasetRecenzije;
-	TfrxDBDataset *frxDBDatasetKorisnik;
-	TPReport *PReportRecenzije;
-	TfrxPDFExport *frxPDFExport1;
 	TDBGrid *DBGridLookUpRecenzije;
 	TDataSource *DataSourceRecenzije;
 	TDataSource *DataSourceKorisnik;
@@ -86,6 +83,10 @@ __published:	// IDE-managed Components
 	TIntegerField *FDTableRecenzijekorisnik_id;
 	TStringField *FDTableRecenzijeStudentIme;
 	TStringField *FDTableRecenzijeRecenzirao;
+	TfrxReport *frxReport1;
+	TPReport *PReport1;
+	TfrxDBDataset *frxDBDatasetRecenzije;
+	TfrxDBDataset *frxDBDatasetKorisnik;
 	void __fastcall ButtonSpremiRecenzijuClick(TObject *Sender);
 	void __fastcall ButtonOdustaniClick(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);

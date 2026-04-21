@@ -17,6 +17,10 @@
 #pragma link "PReport"
 #pragma link "frxExportBaseDialog"
 #pragma link "frxExportPDF"
+#pragma link "PdfDoc"
+#pragma link "PReport"
+#pragma link "PdfDoc"
+#pragma link "PReport"
 #pragma resource "*.dfm"
 TFormRecenzija *FormRecenzija;
 
@@ -358,12 +362,14 @@ void __fastcall TFormRecenzija::ButtonSpremiRecenzijuClick(TObject *Sender)
 
 void __fastcall TFormRecenzija::ButtonPDFClick(TObject *Sender)
 {
+	/*
 	AnsiString put = ExtractFilePath(Application->ExeName) + "..\\..\\izvjestaj.pdf";
 	frxPDFExport1->FileName = put;
 	frxPDFExport1->ShowProgress = false;
 	frxPDFExport1->ShowDialog   = false;
-	frxReportRecenzije->PrepareReport(true);
-	frxReportRecenzije->Export(frxPDFExport1);
+	frxReport1->PrepareReport(true);
+	frxReport1->Export(frxPDFExport1);
+     */
 }
 //---------------------------------------------------------------------------
 
