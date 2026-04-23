@@ -77,9 +77,8 @@ object FormSviFilmovi: TFormSviFilmovi
   object LabelUkupnoFilmova: TLabel
     Left = 740
     Top = 521
-    Width = 8
+    Width = 3
     Height = 15
-    Caption = 'U'
   end
   object ButtonDodajWatchlistu: TButton
     Left = 1104
@@ -245,6 +244,7 @@ object FormSviFilmovi: TFormSviFilmovi
     ButtonHeight = 23
     ButtonWidth = 94
     Caption = 'ToolBar1'
+    Customizable = True
     ShowCaptions = True
     TabOrder = 16
     object ToolButtonSQLSort: TToolButton

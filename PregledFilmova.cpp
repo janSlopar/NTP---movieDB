@@ -79,8 +79,7 @@ void __fastcall TFormSviFilmovi::StilizirajLabele(TLabel* lbl)
 void __fastcall TFormSviFilmovi::OsvjeziBrojFilmova()
 {
     FDQueryBrojFilmova->Open();
-    LabelUkupnoFilmova->Caption =
-        FDQueryBrojFilmova->Fields->Fields[0]->AsString;
+    LabelUkupnoFilmova->Caption = FDQueryBrojFilmova->Fields->Fields[0]->AsString;
     FDQueryBrojFilmova->Close();
 }
 
@@ -120,7 +119,12 @@ void __fastcall TFormSviFilmovi::FormCreate(TObject* Sender)
     ButtonPregledajListu->StyleName = ini->ReadString("Stilovi", "stil2", "0");
     ButtonUkloni->StyleName = ini->ReadString("Stilovi", "stil2", "0");
     ButtonHRV->StyleName = ini->ReadString("Stilovi", "stil2", "0");
-    ButtonENG->StyleName = ini->ReadString("Stilovi", "stil2", "0");
+	ButtonENG->StyleName = ini->ReadString("Stilovi", "stil2", "0");
+	ButtonRecenzije->StyleName = ini->ReadString("Stilovi", "stil2", "0");
+	ButtonRESTBaza->StyleName = ini->ReadString("Stilovi", "stil2", "0");
+	ToolButtonSQLSort->StyleName = ini->ReadString("Stilovi", "stil2", "0");
+	ToolButtonSQLFilter->StyleName = ini->ReadString("Stilovi", "stil2", "0");
+	ToolButtonSviPosteri->StyleName = ini->ReadString("Stilovi", "stil2", "0");
 
     ini->WriteString("HR", "LabelOmiljeniFilmoviNaslov", "Omiljeni Filmovi");
     ini->WriteString("HR", "LabelListaZaGledanje", "Lista za gledanje");
@@ -729,7 +733,7 @@ void __fastcall TFormSviFilmovi::DBGridFilmoviBazaCellClick(TColumn* Column)
 
     String imdbID = FDTableFilm->FieldByName("imdbID")->AsString;
 
-    if (!PosterPostojiUBazi(imdbID)) {
+	if (!PosterPostojiUBazi(imdbID)) {
         SpremiPosterUBazu();
         OsvjeziTablicutomZapisu();
     }
